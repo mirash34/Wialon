@@ -1,0 +1,13 @@
+c:\users\i.shvykin\documents\visual studio 2013\Projects\Wialion_Forms\Wialion_Forms\bin\Debug\Wialion_Forms.exe.config
+c:\users\i.shvykin\documents\visual studio 2013\Projects\Wialion_Forms\Wialion_Forms\bin\Debug\Wialion_Forms.exe
+c:\users\i.shvykin\documents\visual studio 2013\Projects\Wialion_Forms\Wialion_Forms\bin\Debug\Wialion_Forms.pdb
+c:\users\i.shvykin\documents\visual studio 2013\Projects\Wialion_Forms\Wialion_Forms\obj\Debug\Wialion_Forms.csprojResolveAssemblyReference.cache
+c:\users\i.shvykin\documents\visual studio 2013\Projects\Wialion_Forms\Wialion_Forms\obj\Debug\Interop.WialonActiveXLib.dll
+c:\users\i.shvykin\documents\visual studio 2013\Projects\Wialion_Forms\Wialion_Forms\obj\Debug\Wialion_Forms.csproj.ResolveComReference.cache
+c:\users\i.shvykin\documents\visual studio 2013\Projects\Wialion_Forms\Wialion_Forms\obj\Debug\Wialion_Forms.Form1.resources
+c:\users\i.shvykin\documents\visual studio 2013\Projects\Wialion_Forms\Wialion_Forms\obj\Debug\Wialion_Forms.Properties.Resources.resources
+c:\users\i.shvykin\documents\visual studio 2013\Projects\Wialion_Forms\Wialion_Forms\obj\Debug\Wialion_Forms.csproj.GenerateResource.Cache
+c:\users\i.shvykin\documents\visual studio 2013\Projects\Wialion_Forms\Wialion_Forms\obj\Debug\Wialion_Forms.exe
+c:\users\i.shvykin\documents\visual studio 2013\Projects\Wialion_Forms\Wialion_Forms\obj\Debug\Wialion_Forms.pdb
+C:\Users\i.shvykin\documents\visual studio 2013\Projects\Wialion_Forms\Wialion_Forms\obj\Debug\Wialion_Forms.AddForm.resources
+C:\Users\i.shvykin\Documents\Visual Studio 2013\Projects\Wialion_Forms\Wialion_Forms\obj\Debug\Wialion_Forms.Options.resources
