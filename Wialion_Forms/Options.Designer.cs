@@ -32,6 +32,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Options));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.DirectoryTextBox = new System.Windows.Forms.TextBox();
             this.UserDeleteBtn = new System.Windows.Forms.Button();
             this.SaveBtn = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
@@ -44,11 +46,16 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.UserComboBox = new System.Windows.Forms.ComboBox();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.DirectoryTextBox);
             this.groupBox1.Controls.Add(this.UserDeleteBtn);
             this.groupBox1.Controls.Add(this.SaveBtn);
             this.groupBox1.Controls.Add(this.label5);
@@ -67,6 +74,22 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Настройки";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 20);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(173, 13);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "Директория сохранения отчетов";
+            // 
+            // DirectoryTextBox
+            // 
+            this.DirectoryTextBox.Location = new System.Drawing.Point(136, 41);
+            this.DirectoryTextBox.Name = "DirectoryTextBox";
+            this.DirectoryTextBox.Size = new System.Drawing.Size(311, 20);
+            this.DirectoryTextBox.TabIndex = 15;
             // 
             // UserDeleteBtn
             // 
@@ -115,6 +138,7 @@
             // 
             this.PasswordTextBox.Location = new System.Drawing.Point(161, 77);
             this.PasswordTextBox.Name = "PasswordTextBox";
+            this.PasswordTextBox.PasswordChar = '*';
             this.PasswordTextBox.Size = new System.Drawing.Size(100, 20);
             this.PasswordTextBox.TabIndex = 9;
             // 
@@ -169,6 +193,20 @@
             this.UserComboBox.Size = new System.Drawing.Size(136, 21);
             this.UserComboBox.TabIndex = 0;
             // 
+            // folderBrowserDialog1
+            // 
+           
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(9, 38);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(110, 23);
+            this.button1.TabIndex = 17;
+            this.button1.Text = "Обзор";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -199,5 +237,9 @@
         public System.Windows.Forms.TextBox PasswordTextBox;
         public System.Windows.Forms.TextBox LoginTextBox;
         private System.Windows.Forms.Button UserDeleteBtn;
+        private System.Windows.Forms.Label label6;
+        public System.Windows.Forms.TextBox DirectoryTextBox;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.Button button1;
     }
 }
