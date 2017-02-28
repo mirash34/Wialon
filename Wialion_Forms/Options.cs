@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using System.Data.Linq;
-using System.Configuration;
 
 namespace Wialion_Forms
 {

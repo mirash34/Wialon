@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using WialonActiveXLib;
 using System.Xml;
-using System.IO;
-using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
-using System.Configuration;
-using System.Data.Linq;
 using System.Globalization;
 
 namespace Wialion_Forms

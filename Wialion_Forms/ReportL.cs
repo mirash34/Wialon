@@ -1,6 +1,4 @@
-﻿
-
-namespace Wialion_Forms
+﻿namespace Wialion_Forms
 {
     public class ReportL
     {
