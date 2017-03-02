@@ -35,17 +35,17 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WialonForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.AddBtn = new System.Windows.Forms.Button();
             this.UnitsWialon = new System.Windows.Forms.CheckedListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.CheckedUnits = new System.Windows.Forms.CheckedListBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.RemoveBtn = new System.Windows.Forms.Button();
             this.ReportList = new System.Windows.Forms.ComboBox();
             this.PickerFrom = new System.Windows.Forms.DateTimePicker();
             this.PickerTo = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
+            this.ReportBtn = new System.Windows.Forms.Button();
             this.ComboBoxGroup = new System.Windows.Forms.ComboBox();
             this.AddGroup = new System.Windows.Forms.Button();
             this.ReportLabel = new System.Windows.Forms.Label();
@@ -61,7 +61,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.AddBtn);
             this.groupBox1.Controls.Add(this.UnitsWialon);
             this.groupBox1.Location = new System.Drawing.Point(13, 114);
             this.groupBox1.Name = "groupBox1";
@@ -70,15 +70,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Техника";
             // 
-            // button1
+            // AddBtn
             // 
-            this.button1.Location = new System.Drawing.Point(110, 295);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(96, 21);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Добавить >>>";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.AddBtn.Location = new System.Drawing.Point(110, 295);
+            this.AddBtn.Name = "AddBtn";
+            this.AddBtn.Size = new System.Drawing.Size(96, 21);
+            this.AddBtn.TabIndex = 4;
+            this.AddBtn.Text = "Добавить >>>";
+            this.AddBtn.UseVisualStyleBackColor = true;
+            this.AddBtn.Click += new System.EventHandler(this.button1_Click);
             // 
             // UnitsWialon
             // 
@@ -91,7 +91,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.CheckedUnits);
-            this.groupBox2.Controls.Add(this.button2);
+            this.groupBox2.Controls.Add(this.RemoveBtn);
             this.groupBox2.Location = new System.Drawing.Point(390, 114);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(349, 326);
@@ -107,15 +107,15 @@
             this.CheckedUnits.Size = new System.Drawing.Size(335, 259);
             this.CheckedUnits.TabIndex = 2;
             // 
-            // button2
+            // RemoveBtn
             // 
-            this.button2.Location = new System.Drawing.Point(131, 295);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(96, 21);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Удалить";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.RemoveBtn.Location = new System.Drawing.Point(131, 295);
+            this.RemoveBtn.Name = "RemoveBtn";
+            this.RemoveBtn.Size = new System.Drawing.Size(96, 21);
+            this.RemoveBtn.TabIndex = 1;
+            this.RemoveBtn.Text = "Удалить";
+            this.RemoveBtn.UseVisualStyleBackColor = true;
+            this.RemoveBtn.Click += new System.EventHandler(this.button2_Click);
             // 
             // ReportList
             // 
@@ -162,15 +162,15 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "По";
             // 
-            // button3
+            // ReportBtn
             // 
-            this.button3.Location = new System.Drawing.Point(16, 485);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(720, 23);
-            this.button3.TabIndex = 8;
-            this.button3.Text = "Составить отчёт";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.ReportBtn.Location = new System.Drawing.Point(16, 485);
+            this.ReportBtn.Name = "ReportBtn";
+            this.ReportBtn.Size = new System.Drawing.Size(720, 23);
+            this.ReportBtn.TabIndex = 8;
+            this.ReportBtn.Text = "Составить отчёт";
+            this.ReportBtn.UseVisualStyleBackColor = true;
+            this.ReportBtn.Click += new System.EventHandler(this.button3_Click);
             // 
             // ComboBoxGroup
             // 
@@ -239,7 +239,7 @@
             this.опцииToolStripMenuItem.Text = "Опции";
             this.опцииToolStripMenuItem.Click += new System.EventHandler(this.опцииToolStripMenuItem_Click);
             // 
-            // Form1
+            // WialonForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -248,7 +248,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.AddGroup);
             this.Controls.Add(this.ComboBoxGroup);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.ReportBtn);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.PickerTo);
@@ -259,7 +259,7 @@
             this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
+            this.Name = "WialonForm";
             this.Text = "WialonAPI";
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -276,14 +276,14 @@
         private System.Windows.Forms.CheckedListBox UnitsWialon;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ComboBox ReportList;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button AddBtn;
+        private System.Windows.Forms.Button RemoveBtn;
         private System.Windows.Forms.CheckedListBox CheckedUnits;
         private System.Windows.Forms.DateTimePicker PickerFrom;
         private System.Windows.Forms.DateTimePicker PickerTo;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button ReportBtn;
         private System.Windows.Forms.ComboBox ComboBoxGroup;
         private System.Windows.Forms.Button AddGroup;
         private System.Windows.Forms.Label ReportLabel;

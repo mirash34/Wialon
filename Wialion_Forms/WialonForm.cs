@@ -7,6 +7,7 @@ using System.Xml;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Globalization;
 
+
 namespace Wialion_Forms
 {
     public partial class WialonForm : Form
@@ -18,51 +19,32 @@ namespace Wialion_Forms
         Options Option;
         public WialonForm()
         {
-            TimeZone localZone = TimeZone.CurrentTimeZone;
-            //const string dataFmt = "{0,-30}{1}";
-            //const string timeFmt = "{0,-30}{1:yyyy-MM-dd HH:mm}";
+            TimeZone localZone = TimeZone.CurrentTimeZone;            
             DateTime currentDate = DateTime.Now;
             int currentYear = currentDate.Year;
-            DateTime currentUTC =
-            localZone.ToUniversalTime(currentDate);
-            TimeSpan currentOffset =
-                localZone.GetUtcOffset(currentDate);
-
-            // System.Windows.Forms.MessageBox.Show(currentOffset.TotalSeconds.ToString());
-
-            //System.Windows.Forms.MessageBox.Show(timeFmt, "Coordinated Universal Time:",
-            // currentUTC);
-
-            //System.Windows.Forms.MessageBox.Show(TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time").GetUtcOffset(DateTime.Now).ToString());
+            DateTime currentUTC =localZone.ToUniversalTime(currentDate);
+            TimeSpan currentOffset =localZone.GetUtcOffset(currentDate);          
             AddForm1 = new AddForm();
             Option = new Options();
             InitializeComponent();
-            // string ConnectionString = ConfigurationManager.ConnectionStrings["DBGroup"].ConnectionString;
+          
             using (DbOption db = new DbOption())
             {
-                // db = new DataContext(ConfigurationManager.ConnectionStrings["DBGroup"].ConnectionString);
-                //Table<GroupData> GroupD = db.GetTable<GroupData>();
-                this.ComboBoxGroup.DataSource = db.Groups.ToList();
-                this.ComboBoxGroup.DisplayMember = "Name";
-                this.ComboBoxGroup.ValueMember = "GroupId";
+                ComboBoxGroup.DataSource = db.Groups.ToList();
+                ComboBoxGroup.DisplayMember = "Name";
+                ComboBoxGroup.ValueMember = "GroupId";
             }
             Wialon = new WialonConnection();
             Units = new WialonCollection();
             Reports = new WialonCollection();
             WialonUnit Unit = new WialonUnit();
             WialonReport Report = new WialonReport();
-
-
             long CountOfUnits;
             if (Wialon == null)
             {
-                System.Windows.Forms.MessageBox.Show("No object");
+                MessageBox.Show("No object");
                 return;
-            }
-
-            //Wialon.SetProxyMode("activex-wln.sucden.ru", 80, "А.Морозов:sucden");
-            //Units = Wialon.Login("activex-wln.sucden.ru", 80, "А.Морозов", "sucden");
-
+            }           
             if (Option.ProxyTextBox.Text.Trim() != "" & Option.PortTextBox.Text.Trim() != "" & Option.LoginTextBox.Text.Trim() != "" & Option.PasswordTextBox.Text.Trim() != "" & Option.DirectoryTextBox.Text.Trim() != "")
             {
                 Wialon.SetProxyMode(Option.ProxyTextBox.Text.Trim(), (ushort)Convert.ToInt32(Option.PortTextBox.Text.Trim()), Option.LoginTextBox.Text.Trim() + ":" + Option.PasswordTextBox.Text.Trim());
@@ -70,8 +52,8 @@ namespace Wialion_Forms
             }
             else
             {
-                Wialon.SetProxyMode("activex-wln.sucden.ru", 80, "wialon:Gtx5RC8uH");
-                Units = Wialon.Login("activex-wln.sucden.ru", 80, "wialon", "Gtx5RC8uH");
+             Wialon.SetProxyMode("activex-wln.sucden.ru", 80, "UserForApp:UserForApp");
+             Units = Wialon.Login("activex-wln.sucden.ru", 80, "UserForApp", "UserForApp");               
             }
             Reports = Wialon.GetReportsList();
             WialonReport NewRep = new WialonReport();
@@ -80,7 +62,7 @@ namespace Wialion_Forms
             {
                 if (a == null)
                 {
-                    System.Windows.Forms.MessageBox.Show(Wialon.GetLastError().ToString());
+                    MessageBox.Show(Wialon.GetLastError().ToString());
                     return;
                 }
                 else
@@ -97,14 +79,13 @@ namespace Wialion_Forms
                 Unit = (WialonUnit)Units[i];
                 if (Unit == null)
                 {
-                    System.Windows.Forms.MessageBox.Show("Not unit");
+                    MessageBox.Show("Not unit");
                     return;
                 }
                 else
                 {
                     UnitsCl.Add(new Units() { Name = Unit.Name, UnitId = (int)Unit.ID });
                 }
-               
             }
             UnitsCl.Sort((a, b) => a.Name.CompareTo(b.Name));
             UnitsWialon.DataSource = UnitsCl;
@@ -134,9 +115,9 @@ namespace Wialion_Forms
             {
                 if ((int)ComboBoxGroup.SelectedValue != 0)
                 {
-                    this.CheckedUnits.DataSource = db.Units.ToList().Where(x => x.GroupId == (int)ComboBoxGroup.SelectedValue).ToList();
-                    this.CheckedUnits.DisplayMember = "Name";
-                    this.CheckedUnits.ValueMember = "UnitId";
+                    CheckedUnits.DataSource = db.Units.ToList().Where(x => x.GroupId == (int)ComboBoxGroup.SelectedValue).ToList();
+                    CheckedUnits.DisplayMember = "Name";
+                    CheckedUnits.ValueMember = "UnitId";
                 }
             }
         }
@@ -160,7 +141,6 @@ namespace Wialion_Forms
                         NewUnits.Add(new Units() { Name = Check.Name, UnitId = Check.UnitId, GroupId = Convert.ToInt32(ComboBoxGroup.SelectedValue.ToString()) });
                     }
                 }
-
                 CheckedUnits.DataSource = NewUnits;
                 CheckedUnits.DisplayMember = "Name";
                 CheckedUnits.ValueMember = "UnitId";
@@ -174,14 +154,13 @@ namespace Wialion_Forms
                                 db.Units.Add(new Units { Name = a.Name, UnitId = a.UnitId, GroupId = (int)ComboBoxGroup.SelectedValue });
                                 db.SaveChanges();
                             }
-                            catch { System.Windows.Forms.MessageBox.Show("Не удалось добавить технику " + a.Name); }
+                            catch { MessageBox.Show("Не удалось добавить технику " + a.Name); }
                         }
                     else
-                        System.Windows.Forms.MessageBox.Show("Вы не выбрали технику");
+                        MessageBox.Show("Вы не выбрали технику");
                 }
             }
         }
-
         private void button2_Click(object sender, EventArgs e)
         {
             List<Units> SaveUnit = new List<Units>();
@@ -210,7 +189,7 @@ namespace Wialion_Forms
 
         private void button3_Click(object sender, EventArgs e)
         {
-            button3.Enabled = false;
+            ReportBtn.Enabled =false;            
             DateTime From = PickerFrom.Value;
             DateTime To = PickerTo.Value; ;
             DateTime TimeFrom1970 = new DateTime(1970, 1, 1);
@@ -220,9 +199,7 @@ namespace Wialion_Forms
             WialonConnection Wialon = new WialonConnection();
             WialonCollection Units = new WialonCollection();
             WialonCollection Reports = new WialonCollection();
-            WialonUnit Unit = new WialonUnit();
-            // Wialon.SetProxyMode("activex-wln.sucden.ru", 80, "А.Морозов:sucden");
-            // Units = Wialon.Login("activex-wln.sucden.ru", 80, "А.Морозов", "sucden");
+            WialonUnit Unit = new WialonUnit();      
             Wialon.SetProxyMode(Option.ProxyTextBox.Text.Trim(), (ushort)Convert.ToInt32(Option.PortTextBox.Text.Trim()), Option.LoginTextBox.Text.Trim() + ":" + Option.PasswordTextBox.Text.Trim());
             Units = Wialon.Login(Option.ProxyTextBox.Text.Trim(), (ushort)Convert.ToInt32(Option.PortTextBox.Text.Trim()), Option.LoginTextBox.Text.Trim(), Option.PasswordTextBox.Text.Trim());
             Reports = Wialon.GetReportsList();
@@ -238,27 +215,25 @@ namespace Wialion_Forms
             }
             List<Merge> NewMerge = new List<Merge>();
             List<AZS> NewAZS = new List<AZS>();
-
             TimeZone localZone = TimeZone.CurrentTimeZone;
             TimeSpan currentOffset = localZone.GetUtcOffset(DateTime.Now);
-
             foreach (Units a in CheckedUnits.Items)
             {
                 //string some2 = Wialon.GetReportByID((uint)DiffFrom.TotalSeconds, (uint)DiffTo.TotalSeconds, a.UnitId, 10800, "ru", IdRes, IdRep);
                 //string some = Wialon.GetReportByID((uint)DiffFrom.TotalSeconds, (uint)DiffTo.TotalSeconds, a.UnitId, (int)GetTimeZoneForWialon(), "ru", IdRes, IdRep);
-                string some = Wialon.GetReportByID((uint)DiffFrom.TotalSeconds, (uint)DiffTo.TotalSeconds, a.UnitId, (int)currentOffset.TotalSeconds, "ru", IdRes, IdRep);
+                string XmlReport = Wialon.GetReportByID((uint)DiffFrom.TotalSeconds, (uint)DiffTo.TotalSeconds, a.UnitId, (int)currentOffset.TotalSeconds, "ru", IdRes, IdRep);
                 // StreamWriter SW = new StreamWriter(new FileStream(@"C:\Rapport\MyXml.txt", FileMode.Create, FileAccess.Write));
                 //SW.Write(some);
                 // SW.Close();
                 XmlDocument xDoc = new XmlDocument();
-                if (some != null & ReportList.Text == "График топлива и поездки CON2")
+                if (XmlReport != null & ReportList.Text == "График топлива и поездки CON2")
                 {
-                    xDoc.LoadXml(some);
+                    xDoc.LoadXml(XmlReport);
                     XmlElement xRoot = xDoc.DocumentElement;
                     string XPh = "//table[@name='Сливы']/header/*";
                     string XPh2 = "//table[@name='Сливы']/total/*";
                     string XPh3 = "//table[@name='Сливы']/row/*";
-                    string XPh4 = "//table[@name='Поездки']/row/subrows/row/*";
+                   // string XPh4 = "//table[@name='Поездки']/row/subrows/row/*";
                     // string SheremetXPh = "//table[@name='Заправки']/row/subrows/row/*";
                     XmlNodeList childnodes = xRoot.SelectNodes(XPh);
                     XmlNodeList childnodes2 = xRoot.SelectNodes(XPh2);
@@ -273,51 +248,42 @@ namespace Wialion_Forms
                         foreach (XmlNode n in childnodes3)
                         {       // System.Windows.Forms.MessageBox.Show(n.Attributes.Item(0).Value.ToString());
                             if (j == 0)
-                            {
-                                //System.Windows.Forms.MessageBox.Show(n.Attributes.Item(1).Value.ToString());
+                            {                                
                                 AddMerge.Time = Int32.Parse(n.Attributes.Item(1).Value.ToString());
                                 j++; continue;
                             }
                             if (j == 1)
-                            {
-                                //System.Windows.Forms.MessageBox.Show(n.Attributes.Item(1).Value);
+                            {                               
                                 AddMerge.Merged = Double.Parse(n.Attributes.Item(1).Value, provider);
                                 j++; continue;
                             }
                             if (j == 2)
-                            {
-                                //System.Windows.Forms.MessageBox.Show(n.Attributes.Item(1).Value.ToString());
+                            {                                
                                 AddMerge.FirstLevel = Double.Parse(n.Attributes.Item(1).Value.ToString(), provider);
                                 j++; continue;
                             }
                             if (j == 3)
-                            {
-                                //System.Windows.Forms.MessageBox.Show(n.Attributes.Item(1).Value.ToString());
+                            {                             
                                 AddMerge.SecondLevel = Double.Parse(n.Attributes.Item(1).Value.ToString(), provider);
                                 j++; continue;
                             }
                             if (j == 4)
-                            {
-                                //System.Windows.Forms.MessageBox.Show(n.Attributes.Item(0).Value.ToString());
+                            {                              
                                 AddMerge.Driver = n.Attributes.Item(0).Value.ToString();
-                                // System.Windows.Forms.MessageBox.Show(AddMerge.Time + " " + AddMerge.Merged + " " + AddMerge.FirstLevel + " " + AddMerge.SecondLevel + " " + AddMerge.Driver);
                                 j++; continue;
                             }
                             if (j == 5)
-                            {
-                                //System.Windows.Forms.MessageBox.Show(n.Attributes.Item(1).Value.ToString());
+                            {                         
                                 AddMerge.FirstSpeed = Double.Parse(n.Attributes.Item(1).Value.ToString(), provider);
                                 j++; continue;
                             }
                             if (j == 6)
-                            {
-                                //System.Windows.Forms.MessageBox.Show(n.Attributes.Item(1).Value.ToString());
+                            {                                
                                 AddMerge.FinalSpeed = Double.Parse(n.Attributes.Item(1).Value.ToString(), provider);
                                 j++; continue;
                             }
                             if (j == 7)
-                            {
-                                //System.Windows.Forms.MessageBox.Show(n.Attributes.Item(1).Value.ToString());
+                            {                               
                                 AddMerge.Mileage = Double.Parse(n.Attributes.Item(1).Value.ToString(), provider);
                                 j = 0;
                                 NewMerge.Add(new Merge() { Driver = AddMerge.Driver, FirstLevel = AddMerge.FirstLevel, Merged = AddMerge.Merged, SecondLevel = AddMerge.SecondLevel, Time = AddMerge.Time, FinalSpeed = AddMerge.FinalSpeed, FirstSpeed = AddMerge.FirstSpeed, Mileage = AddMerge.Mileage, UnitName = AddMerge.UnitName });
@@ -327,15 +293,14 @@ namespace Wialion_Forms
                     }
                     catch { continue; }
                 }
-                else if (some != null & ReportList.Text == "Выдача топлива по АЗС")
+                else if (XmlReport != null & ReportList.Text == "Выдача топлива по АЗС")
                 {
-                    xDoc.LoadXml(some);
+                    xDoc.LoadXml(XmlReport);
                     XmlElement xRoot = xDoc.DocumentElement;
-                    string XPh = "//table[@name='АЗС']/header/*";
-                    string XPh2 = "//table[@name='АЗС']/total/*";
+                   // string XPh = "//table[@name='АЗС']/header/*";
+                    //string XPh2 = "//table[@name='АЗС']/total/*";
                     string XPh3 = "//table[@name='АЗС']/row/*";
-                    string XPh4 = "//table[@name='АЗС']/row/subrows/row/*";
-
+                    //string XPh4 = "//table[@name='АЗС']/row/subrows/row/*";
                     try
                     {
                         XmlNodeList childnodes3 = xRoot.SelectNodes(XPh3);
@@ -345,70 +310,59 @@ namespace Wialion_Forms
                         AZS AddAZS = new AZS();
                         AddAZS.UnitName = a.Name;
                         foreach (XmlNode n in childnodes3)
-                        {
-                            // System.Windows.Forms.MessageBox.Show(n.Attributes.Item(0).Value.ToString());
+                        {                            
                             if (j == 0)
-                            {
-                                //System.Windows.Forms.MessageBox.Show(n.Attributes.Item(1).Value.ToString());
+                            {                             
                                 AddAZS.Time = n.Attributes.Item(0).Value.ToString();
 
                                 j++; continue;
                             }
                             if (j == 1)
-                            {
-                                //System.Windows.Forms.MessageBox.Show(n.Attributes.Item(1).Value);
+                            {                               
                                 AddAZS.Ignition = Double.Parse(n.Attributes.Item(1).Value, provider);
                                 j++; continue;
                             }
                             if (j == 2)
-                            {
-                                //System.Windows.Forms.MessageBox.Show(n.Attributes.Item(1).Value.ToString());
+                            {                               
                                 AddAZS.Valve = Int32.Parse(n.Attributes.Item(1).Value.ToString(), provider);
                                 j++; continue;
                             }
                             if (j == 3)
-                            {
-                                //System.Windows.Forms.MessageBox.Show(n.Attributes.Item(1).Value.ToString());
+                            {                               
                                 AddAZS.FuelCounter = Double.Parse(n.Attributes.Item(1).Value.ToString(), provider);
                                 j++; continue;
                             }
                             if (j == 4)
-                            {
-                                //System.Windows.Forms.MessageBox.Show(n.Attributes.Item(0).Value.ToString());
+                            {                               
                                 AddAZS.Reader = Double.Parse(n.Attributes.Item(0).Value.ToString(), provider);
 
                                 // System.Windows.Forms.MessageBox.Show(AddMerge.Time + " " + AddMerge.Merged + " " + AddMerge.FirstLevel + " " + AddMerge.SecondLevel + " " + AddMerge.Driver);
                                 j++; continue;
                             }
                             if (j == 5)
-                            {
-                                //System.Windows.Forms.MessageBox.Show(n.Attributes.Item(1).Value.ToString());
+                            {                                
                                 AddAZS.Alarm = n.Attributes.Item(1).Value.ToString();
                                 j++; continue;
                             }
                             if (j == 6)
-                            {
-                                //System.Windows.Forms.MessageBox.Show(n.Attributes.Item(1).Value.ToString());
+                            {                              
                                 AddAZS.FuelLevel = Double.Parse(n.Attributes.Item(1).Value.ToString(), provider);
                                 j++; continue;
                             }
                             if (j == 7)
-                            {
-                                //System.Windows.Forms.MessageBox.Show(n.Attributes.Item(1).Value.ToString());
+                            {                               
                                 AddAZS.Driver = n.Attributes.Item(0).Value.ToString();
                                 j++; continue;
 
                             }
 
                             if (j == 8)
-                            {
-                                //System.Windows.Forms.MessageBox.Show(n.Attributes.Item(1).Value.ToString());
+                            {                                
                                 AddAZS.Coordinates = n.Attributes.Item(0).Value.ToString();
                                 j = 0;
                                 NewAZS.Add(new AZS() { Driver = AddAZS.Driver, Alarm = AddAZS.Driver, Coordinates = AddAZS.Coordinates, FuelCounter = AddAZS.FuelCounter, FuelLevel = AddAZS.FuelLevel, Ignition = AddAZS.Ignition, Reader = AddAZS.Reader, Time = AddAZS.Time, UnitName = AddAZS.UnitName, Valve = AddAZS.Valve });
                                 continue;
                             }
-
                         }
                     }
                     catch { continue; }
@@ -425,13 +379,11 @@ namespace Wialion_Forms
                     {
                         GarantyMerge.Add(Merg);
                     }
-                    //AllMerges += Merg.Time + " " + Merg.Merged + " " + Merg.FirstLevel + " " + Merg.SecondLevel + " " + Merg.Driver + " " + Merg.FirstSpeed + " " + Merg.FinalSpeed + " " + Merg.Mileage+"\n";
-                    // AllMerges += date + " " + Merg.UnitName + " " + Merg.Merged + " " + Merg.FirstLevel + " " + Merg.SecondLevel + " " + Merg.Driver + " " + Merg.FirstSpeed + " " + Merg.FinalSpeed + " " + Merg.Mileage + "\n";
+                    
                 }
                 if (GarantyMerge.Count != 0)
                 {
-                    Excel.Application ObjExcel = new Excel.Application();
-                    // Excel.Worksheet DataSheet;
+                    Excel.Application ObjExcel = new Excel.Application();                  
                     ObjExcel.Visible = true;
                     ObjExcel.Workbooks.Add();
                     Excel._Worksheet WorkSheet = ObjExcel.ActiveSheet;
@@ -451,15 +403,14 @@ namespace Wialion_Forms
                     }
                 }
                 else
-                    System.Windows.Forms.MessageBox.Show("Сливов не обнаружено");
+                    MessageBox.Show("Сливов не обнаружено");
             }
             if (ReportList.Text == "Выдача топлива по АЗС" & NewAZS.Count != 0)
             {
-                Excel.Application ObjExcel = new Excel.Application();
-                // Excel.Worksheet DataSheet;
+                Excel.Application ObjExcel = new Excel.Application();                
                 ObjExcel.Visible = false;
                 System.Diagnostics.Process excelProc = System.Diagnostics.Process.GetProcessesByName("EXCEL").Last();
-                Excel.Workbook Workbooks = ObjExcel.Workbooks.Add();//ObjExcel.Workbooks.Add();
+                Excel.Workbook Workbooks = ObjExcel.Workbooks.Add();
                 Excel._Worksheet WorkSheet = ObjExcel.ActiveSheet;
                 WorkSheet.Name = "АЗС";
                 WorkSheet.Cells[1, 1] = "Время";
@@ -507,13 +458,10 @@ namespace Wialion_Forms
                         }
                     m++;
                 }
-
                 ObjExcel.DisplayAlerts = false;
                 ObjExcel.Visible = false;
-                ObjExcel.UserControl = false;
-                System.Windows.Forms.MessageBox.Show(@Option.DirectoryTextBox.Text.Trim() + "\\" + DateTime.Now.ToString());
+                ObjExcel.UserControl = false;              
                 Workbooks.SaveAs(@Option.DirectoryTextBox.Text.Trim() + "\\" + DateTime.Now.Day.ToString() + "." + DateTime.Now.Month.ToString() + "." + DateTime.Now.Year.ToString() + " " + DateTime.Now.Hour.ToString() + "-" + DateTime.Now.Minute.ToString() + "-" + DateTime.Now.Second.ToString() + ".xlsx");
-
                 ObjExcel.DisplayAlerts = false;
                 ObjExcel.Quit();
                 ObjExcel.Workbooks.Close();
@@ -524,18 +472,15 @@ namespace Wialion_Forms
                 Workbooks = null;
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(WorkSheet);
                 WorkSheet = null;
-
                 excelProc.Kill();
-                System.GC.Collect();
+                GC.Collect();
             }
-            button3.Enabled = true;
+            ReportBtn.Enabled = true;
         }
-
         private void AddGroup_Click(object sender, EventArgs e)
         {
             AddForm1.Show();
         }
-
         private void ComboBoxGroup_DropDown(object sender, EventArgs e)
         {
             using (DbOption db = new DbOption())
@@ -546,7 +491,6 @@ namespace Wialion_Forms
                 ComboBoxGroup.ValueMember = "GroupId";
             }
         }
-
         private void опцииToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Option.Show();

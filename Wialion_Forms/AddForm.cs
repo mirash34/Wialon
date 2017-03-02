@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-
-
 namespace Wialion_Forms
 {
     public partial class AddForm : Form

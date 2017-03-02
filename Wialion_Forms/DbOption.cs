@@ -1,5 +1,5 @@
 namespace Wialion_Forms
-{ 
+{
     using System.Data.Entity;
     public partial class DbOption : DbContext
     {
