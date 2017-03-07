@@ -180,6 +180,7 @@
             this.ComboBoxGroup.Size = new System.Drawing.Size(221, 21);
             this.ComboBoxGroup.TabIndex = 9;
             this.ComboBoxGroup.DropDown += new System.EventHandler(this.ComboBoxGroup_DropDown);
+            
             // 
             // AddGroup
             // 

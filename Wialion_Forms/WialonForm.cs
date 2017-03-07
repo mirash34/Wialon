@@ -6,6 +6,8 @@ using WialonActiveXLib;
 using System.Xml;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Globalization;
+using System.Threading;
+using System.Threading.Tasks;
 
 
 namespace Wialion_Forms
@@ -91,7 +93,6 @@ namespace Wialion_Forms
             UnitsWialon.DataSource = UnitsCl;
             UnitsWialon.DisplayMember = "Name";
             UnitsWialon.ValueMember = "UnitId";
-
             //  string some = Wialon.GetReportByID(1482094800, 1482181199, UId, (int)GetTimeZoneForWialon(), "ru", ResId, RepId);
             System.Runtime.InteropServices.Marshal.ReleaseComObject(Unit);
             Unit = null;
@@ -110,16 +111,18 @@ namespace Wialion_Forms
             ComboBoxGroup.SelectedIndexChanged += ComboBoxGroup_SelectedIndexChanged;
         }
         void ComboBoxGroup_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            using (DbOption db = new DbOption())
-            {
-                if ((int)ComboBoxGroup.SelectedValue != 0)
-                {
-                    CheckedUnits.DataSource = db.Units.ToList().Where(x => x.GroupId == (int)ComboBoxGroup.SelectedValue).ToList();
-                    CheckedUnits.DisplayMember = "Name";
-                    CheckedUnits.ValueMember = "UnitId";
-                }
-            }
+        {   int ComboGroupS=(int)ComboBoxGroup.SelectedValue;     
+            
+                  using (DbOption db = new DbOption())
+                  {
+                      if (ComboGroupS != 0)
+                      {
+                          CheckedUnits.DataSource = db.Units.ToList().Where(x => x.GroupId == ComboGroupS).ToList();
+                          CheckedUnits.DisplayMember = "Name";
+                          CheckedUnits.ValueMember = "UnitId";
+                      }
+                  }
+              
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -244,7 +247,7 @@ namespace Wialion_Forms
                         NumberFormatInfo provider = new NumberFormatInfo();
                         provider.NumberDecimalSeparator = ".";
                         Merge AddMerge = new Merge();
-                        AddMerge.UnitName = a.Name;
+                       
                         foreach (XmlNode n in childnodes3)
                         {       // System.Windows.Forms.MessageBox.Show(n.Attributes.Item(0).Value.ToString());
                             if (j == 0)
@@ -286,7 +289,7 @@ namespace Wialion_Forms
                             {                               
                                 AddMerge.Mileage = Double.Parse(n.Attributes.Item(1).Value.ToString(), provider);
                                 j = 0;
-                                NewMerge.Add(new Merge() { Driver = AddMerge.Driver, FirstLevel = AddMerge.FirstLevel, Merged = AddMerge.Merged, SecondLevel = AddMerge.SecondLevel, Time = AddMerge.Time, FinalSpeed = AddMerge.FinalSpeed, FirstSpeed = AddMerge.FirstSpeed, Mileage = AddMerge.Mileage, UnitName = AddMerge.UnitName });
+                                NewMerge.Add(new Merge() { Driver = AddMerge.Driver, FirstLevel = AddMerge.FirstLevel, Merged = AddMerge.Merged, SecondLevel = AddMerge.SecondLevel, Time = AddMerge.Time, FinalSpeed = AddMerge.FinalSpeed, FirstSpeed = AddMerge.FirstSpeed, Mileage = AddMerge.Mileage, UnitName = a.Name });
                                 continue;
                             }
                         }
@@ -360,7 +363,7 @@ namespace Wialion_Forms
                             {                                
                                 AddAZS.Coordinates = n.Attributes.Item(0).Value.ToString();
                                 j = 0;
-                                NewAZS.Add(new AZS() { Driver = AddAZS.Driver, Alarm = AddAZS.Driver, Coordinates = AddAZS.Coordinates, FuelCounter = AddAZS.FuelCounter, FuelLevel = AddAZS.FuelLevel, Ignition = AddAZS.Ignition, Reader = AddAZS.Reader, Time = AddAZS.Time, UnitName = AddAZS.UnitName, Valve = AddAZS.Valve });
+                                NewAZS.Add(new AZS() { Driver = AddAZS.Driver, Alarm = AddAZS.Driver, Coordinates = AddAZS.Coordinates, FuelCounter = AddAZS.FuelCounter, FuelLevel = AddAZS.FuelLevel, Ignition = AddAZS.Ignition, Reader = AddAZS.Reader, Time = AddAZS.Time, UnitName = a.Name.TrimEnd(' '), Valve = AddAZS.Valve });
                                 continue;
                             }
                         }
@@ -422,6 +425,7 @@ namespace Wialion_Forms
                 WorkSheet.Cells[1, 7] = "Уровень топлива";
                 WorkSheet.Cells[1, 8] = "Водитель";
                 WorkSheet.Cells[1, 9] = "Координаты";
+                WorkSheet.Cells[1, 10] = "АЗС";
                 int m = 2;
                 List<AZS> GoodAZS = new List<AZS>();
                 for (int i = 0; i < NewAZS.Count; i++)
@@ -431,7 +435,7 @@ namespace Wialion_Forms
                         if (NewAZS[i].Valve == 1 & NewAZS[i - 1].Valve == 0)
                         {
                             GoodAZS.Add(NewAZS[i - 1]);
-                            while (NewAZS[i].Valve == 1 & i < NewAZS.Count)
+                            while (NewAZS[i].Valve == 1 & i < NewAZS.Count-1)
                             {
                                 i++;
                             }
@@ -441,20 +445,22 @@ namespace Wialion_Forms
                     else
                         GoodAZS.Add(NewAZS[i]);
                 }
+                GoodAZS.Sort((a, b) => a.UnitName.CompareTo(b.UnitName));
                 for (int j = 0; j < GoodAZS.Count; j++)
                 {
-                    for (int i = 1; i < 10; i++)
-                        switch (i % 9)
+                    for (int i = 1; i < 11; i++)
+                        switch (i % 10)
                         {
-                            case 1: WorkSheet.Cells[m, i % 9] = GoodAZS[j].Time; break;
-                            case 2: WorkSheet.Cells[m, i % 9] = GoodAZS[j].Ignition; break;
-                            case 3: WorkSheet.Cells[m, i % 9] = GoodAZS[j].Valve; break;
-                            case 4: WorkSheet.Cells[m, i % 9] = GoodAZS[j].FuelCounter; break;
-                            case 5: WorkSheet.Cells[m, i % 9] = GoodAZS[j].Reader; break;
-                            case 6: WorkSheet.Cells[m, i % 9] = GoodAZS[j].Alarm; break;
-                            case 7: WorkSheet.Cells[m, i % 9] = GoodAZS[j].FuelLevel; break;
-                            case 8: WorkSheet.Cells[m, i % 9] = GoodAZS[j].Driver; break;
-                            case 0: WorkSheet.Cells[m, 9] = GoodAZS[j].Coordinates; break;
+                            case 1: WorkSheet.Cells[m, i % 10] = GoodAZS[j].Time; break;
+                            case 2: WorkSheet.Cells[m, i % 10] = GoodAZS[j].Ignition; break;
+                            case 3: WorkSheet.Cells[m, i % 10] = GoodAZS[j].Valve; break;
+                            case 4: WorkSheet.Cells[m, i % 10] = GoodAZS[j].FuelCounter; break;
+                            case 5: WorkSheet.Cells[m, i % 10] = GoodAZS[j].Reader; break;
+                            case 6: WorkSheet.Cells[m, i % 10] = GoodAZS[j].Alarm; break;
+                            case 7: WorkSheet.Cells[m, i % 10] = GoodAZS[j].FuelLevel; break;
+                            case 8: WorkSheet.Cells[m, i % 10] = GoodAZS[j].Driver; break;
+                            case 9: WorkSheet.Cells[m, i % 10] = GoodAZS[j].Coordinates; break;
+                            case 0: WorkSheet.Cells[m, 10] = GoodAZS[j].UnitName; break;
                         }
                     m++;
                 }
@@ -465,7 +471,6 @@ namespace Wialion_Forms
                 ObjExcel.DisplayAlerts = false;
                 ObjExcel.Quit();
                 ObjExcel.Workbooks.Close();
-
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(ObjExcel);
                 ObjExcel = null;
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(Workbooks);
@@ -482,7 +487,7 @@ namespace Wialion_Forms
             AddForm1.Show();
         }
         private void ComboBoxGroup_DropDown(object sender, EventArgs e)
-        {
+        {   
             using (DbOption db = new DbOption())
             {
                 var Groups = db.Groups.Select(x => new { GroupId = x.GroupId, Name = x.Name });
@@ -495,5 +500,7 @@ namespace Wialion_Forms
         {
             Option.Show();
         }
+
+        
     }
 }
